@@ -91,6 +91,7 @@ export function useRpgGame() {
     const currentStage = computed(() => STAGES[state.stageIndex] ?? null);
     const currentEnemy = computed(() => {
         const stage = currentStage.value;
+
         return stage ? ENEMIES[stage.enemyId] : null;
     });
     const classDef = computed(() =>
@@ -137,21 +138,26 @@ export function useRpgGame() {
     function load() {
         try {
             const raw = localStorage.getItem(STORAGE_KEY);
+
             if (!raw) {
                 return;
             }
 
             const saved = JSON.parse(raw) as GameState;
             Object.assign(state, saved);
+
             if (state.hero) {
                 state.hero = normalizeHero(state.hero);
             }
+
             if (state.furyTurns === undefined) {
                 state.furyTurns = 0;
             }
+
             if (state.furyBoost === undefined) {
                 state.furyBoost = 0;
             }
+
             if (state.screen === 'battle') {
                 state.isAnimating = false;
                 state.playerAnim = 'idle';
@@ -188,6 +194,7 @@ export function useRpgGame() {
 
     function advanceStory() {
         const stage = currentStage.value;
+
         if (!stage) {
             return;
         }
@@ -195,6 +202,7 @@ export function useRpgGame() {
         if (state.storyIndex < stage.story.length - 1) {
             state.storyIndex += 1;
             persist();
+
             return;
         }
 
@@ -203,6 +211,7 @@ export function useRpgGame() {
 
     function beginBattle() {
         const enemy = currentEnemy.value;
+
         if (!enemy || !state.hero) {
             return;
         }
@@ -307,6 +316,7 @@ export function useRpgGame() {
     function pickEnemySkill() {
         const enemy = currentEnemy.value;
         const hero = state.hero;
+
         if (!enemy || !hero) {
             return null;
         }
@@ -323,25 +333,44 @@ export function useRpgGame() {
             return enemy.skills[0] ?? null;
         }
 
-        const heals = pool.filter((skill) => skill.type === 'heal' && skill.heal);
-        const heavy = pool.filter((skill) => skill.damage >= 34 || skill.manaCost >= 18);
-        const light = pool.filter((skill) => skill.damage < 34 && skill.type !== 'heal');
+        const heals = pool.filter(
+            (skill) => skill.type === 'heal' && skill.heal,
+        );
+        const heavy = pool.filter(
+            (skill) => skill.damage >= 34 || skill.manaCost >= 18,
+        );
+        const light = pool.filter(
+            (skill) => skill.damage < 34 && skill.type !== 'heal',
+        );
 
         // Curar quando ferido
-        if (state.enemyHp <= enemy.maxHp * 0.4 && heals.length > 0 && Math.random() < 0.75) {
+        if (
+            state.enemyHp <= enemy.maxHp * 0.4 &&
+            heals.length > 0 &&
+            Math.random() < 0.75
+        ) {
             return heals[Math.floor(Math.random() * heals.length)]!;
         }
 
         // Sem defesa do jogador: prioriza golpe pesado
-        if (state.playerDefenseTurns <= 0 && heavy.length > 0 && Math.random() < 0.8) {
+        if (
+            state.playerDefenseTurns <= 0 &&
+            heavy.length > 0 &&
+            Math.random() < 0.8
+        ) {
             return heavy[Math.floor(Math.random() * heavy.length)]!;
         }
 
         // Com defesa ativa: chips baratos ou cura
         if (state.playerDefenseTurns > 0) {
-            if (heals.length > 0 && state.enemyHp < enemy.maxHp * 0.7 && Math.random() < 0.45) {
+            if (
+                heals.length > 0 &&
+                state.enemyHp < enemy.maxHp * 0.7 &&
+                Math.random() < 0.45
+            ) {
                 return heals[Math.floor(Math.random() * heals.length)]!;
             }
+
             if (light.length > 0) {
                 return light[Math.floor(Math.random() * light.length)]!;
             }
@@ -366,13 +395,17 @@ export function useRpgGame() {
             return;
         }
 
-        const skill = classDef.value?.skills.find((item) => item.id === skillId);
+        const skill = classDef.value?.skills.find(
+            (item) => item.id === skillId,
+        );
+
         if (!skill) {
             return;
         }
 
         if (state.hero.mana < skill.manaCost) {
             pushLog('Mana insuficiente!', 'system');
+
             return;
         }
 
@@ -383,7 +416,10 @@ export function useRpgGame() {
         await playAnimation('player', skill.animation, 750);
 
         if (skill.type === 'heal') {
-            const healed = skillHeal(skill, state.hero.skillLevels[skill.id] ?? 1);
+            const healed = skillHeal(
+                skill,
+                state.hero.skillLevels[skill.id] ?? 1,
+            );
             state.hero.hp = clamp(state.hero.hp + healed, 0, state.hero.maxHp);
             pushLog(
                 `${state.hero.name} usa ${skill.name} e recupera ${healed} de vida.`,
@@ -414,6 +450,7 @@ export function useRpgGame() {
 
         if (state.enemyHp <= 0) {
             await onEnemyDefeated();
+
             return;
         }
 
@@ -424,15 +461,19 @@ export function useRpgGame() {
     async function enemyTurn() {
         const enemy = currentEnemy.value;
         const hero = state.hero;
+
         if (!enemy || !hero) {
             state.isAnimating = false;
+
             return;
         }
 
         const skill = pickEnemySkill();
+
         if (!skill) {
             state.isAnimating = false;
             state.isPlayerTurn = true;
+
             return;
         }
 
@@ -470,6 +511,7 @@ export function useRpgGame() {
 
         if (state.playerDefenseTurns > 0) {
             state.playerDefenseTurns -= 1;
+
             if (state.playerDefenseTurns === 0) {
                 pushLog('Sua defesa acabou!', 'system');
             }
@@ -477,6 +519,7 @@ export function useRpgGame() {
 
         if (state.furyTurns > 0) {
             state.furyTurns -= 1;
+
             if (state.furyTurns === 0) {
                 state.furyBoost = 0;
                 pushLog('O efeito das Brasas da Fúria se esvai.', 'system');
@@ -497,6 +540,7 @@ export function useRpgGame() {
             state.isAnimating = false;
             pushLog('Você caiu em combate...', 'system');
             persist();
+
             return;
         }
 
@@ -508,6 +552,7 @@ export function useRpgGame() {
     async function onEnemyDefeated() {
         const stage = currentStage.value;
         const enemy = currentEnemy.value;
+
         if (!stage || !enemy || !state.hero) {
             return;
         }
@@ -519,6 +564,7 @@ export function useRpgGame() {
         if (state.stageIndex >= STAGES.length - 1) {
             state.screen = 'victory';
             persist();
+
             return;
         }
 
@@ -539,6 +585,7 @@ export function useRpgGame() {
 
         // desbloqueia skills por nível
         const def = CLASSES[state.hero.classId];
+
         for (const skill of def.skills) {
             if (
                 skill.unlockLevel <= state.hero.level &&
@@ -554,7 +601,10 @@ export function useRpgGame() {
         persist();
     }
 
-    function upgradeStat(stat: 'hp' | 'mana' | 'attack' | 'magic' | 'defense' | 'skill', skillId?: string) {
+    function upgradeStat(
+        stat: 'hp' | 'mana' | 'attack' | 'magic' | 'defense' | 'skill',
+        skillId?: string,
+    ) {
         if (!state.hero || state.hero.skillPoints <= 0) {
             return;
         }
@@ -564,7 +614,8 @@ export function useRpgGame() {
                 return;
             }
 
-            state.hero.skillLevels[skillId] = (state.hero.skillLevels[skillId] ?? 1) + 1;
+            state.hero.skillLevels[skillId] =
+                (state.hero.skillLevels[skillId] ?? 1) + 1;
         } else if (stat === 'hp') {
             state.hero.maxHp += 18;
             state.hero.hp = state.hero.maxHp;
@@ -585,6 +636,7 @@ export function useRpgGame() {
 
     function buyPotion(potionId: string) {
         const potion = getPotion(potionId);
+
         if (!state.hero || !potion) {
             return;
         }
@@ -610,6 +662,7 @@ export function useRpgGame() {
 
         const potion = getPotion(potionId);
         const qty = state.hero.potions[potionId] ?? 0;
+
         if (!potion || qty <= 0) {
             return;
         }

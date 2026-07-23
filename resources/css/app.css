@@ -191,7 +191,11 @@
     position: fixed;
     inset: 0;
     background:
-        radial-gradient(ellipse 80% 50% at 50% -10%, #5a2a1233, transparent 55%),
+        radial-gradient(
+            ellipse 80% 50% at 50% -10%,
+            #5a2a1233,
+            transparent 55%
+        ),
         radial-gradient(ellipse 60% 40% at 10% 80%, #1a3a2a22, transparent 50%),
         radial-gradient(ellipse 50% 35% at 90% 70%, #3a1a1025, transparent 45%),
         linear-gradient(180deg, #1a120c 0%, #0c0907 45%, #140e09 100%);

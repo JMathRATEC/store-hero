@@ -11,8 +11,7 @@ export const ENEMIES: Record<string, EnemyDefinition> = {
         id: 'shadowBeast',
         name: 'Besta das Sombras',
         title: 'Sentinela da Floresta',
-        description:
-            'Rápida e voraz. Castiga quem só ataca sem se proteger.',
+        description: 'Rápida e voraz. Castiga quem só ataca sem se proteger.',
         difficulty: 'fácil',
         maxHp: 145,
         maxMana: 40,

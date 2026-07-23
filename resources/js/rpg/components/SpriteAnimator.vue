@@ -53,8 +53,10 @@ function start() {
     timer = window.setInterval(() => {
         if (!props.clip.loop && frame.value >= props.clip.frames - 1) {
             stop();
+
             return;
         }
+
         frame.value = (frame.value + 1) % props.clip.frames;
     }, interval);
 }
@@ -76,5 +78,10 @@ watch(
 </script>
 
 <template>
-    <div class="sprite-frame shrink-0" :style="style" role="img" aria-hidden="true" />
+    <div
+        class="sprite-frame shrink-0"
+        :style="style"
+        role="img"
+        aria-hidden="true"
+    />
 </template>

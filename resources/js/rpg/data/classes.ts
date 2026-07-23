@@ -120,7 +120,8 @@ export const CLASSES: Record<'warrior' | 'mage', ClassDefinition> = {
             {
                 id: 'mend',
                 name: 'Recomposição',
-                description: 'Cura moderada. Use quando a vida cair abaixo de 50%.',
+                description:
+                    'Cura moderada. Use quando a vida cair abaixo de 50%.',
                 manaCost: 18,
                 baseDamage: 0,
                 heal: 28,
@@ -131,7 +132,8 @@ export const CLASSES: Record<'warrior' | 'mage', ClassDefinition> = {
             {
                 id: 'inferno',
                 name: 'Inferno Arcano',
-                description: 'Burst lendário. Só vale com mana e defesa preparadas.',
+                description:
+                    'Burst lendário. Só vale com mana e defesa preparadas.',
                 manaCost: 36,
                 baseDamage: 62,
                 type: 'magic',

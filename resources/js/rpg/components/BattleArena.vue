@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref } from 'vue';
+import { POTIONS } from '../data/potions';
+import { DRAGON_SPRITE, HERO_SPRITES } from '../data/sprites';
 import type {
     AnimationState,
     BattleLogEntry,
@@ -8,8 +10,6 @@ import type {
     PotionDefinition,
     SkillDefinition,
 } from '../types';
-import { POTIONS } from '../data/potions';
-import { DRAGON_SPRITE, HERO_SPRITES } from '../data/sprites';
 import SpriteAnimator from './SpriteAnimator.vue';
 import StatBar from './StatBar.vue';
 
@@ -57,6 +57,7 @@ onUnmounted(() => {
 
 const playerClip = computed(() => {
     const set = HERO_SPRITES[props.hero.classId];
+
     return set[props.playerAnim] ?? set.idle;
 });
 
@@ -83,7 +84,9 @@ const canUsePotion = (potion: PotionDefinition) =>
 <template>
     <section class="mx-auto w-full max-w-6xl animate-[fadeRise_0.45s_ease]">
         <div class="mb-3 md:mb-4">
-            <p class="text-[10px] tracking-[0.3em] text-[#c9a227] uppercase md:text-xs">
+            <p
+                class="text-[10px] tracking-[0.3em] text-[#c9a227] uppercase md:text-xs"
+            >
                 {{ progress }}
             </p>
             <div class="flex flex-wrap items-baseline justify-between gap-2">
@@ -96,7 +99,9 @@ const canUsePotion = (potion: PotionDefinition) =>
                     {{ enemy.difficulty }}
                 </span>
             </div>
-            <p class="mt-1 text-xs text-[#9f8b68] md:text-sm">{{ enemy.title }}</p>
+            <p class="mt-1 text-xs text-[#9f8b68] md:text-sm">
+                {{ enemy.title }}
+            </p>
             <p class="mt-1 hidden text-sm text-[#b9a88a] md:block">
                 {{ enemy.description }}
             </p>
@@ -109,7 +114,9 @@ const canUsePotion = (potion: PotionDefinition) =>
             <div
                 class="grid grid-cols-2 gap-2 border-b border-[#3d2f1d] bg-[#17120e] p-2.5 md:gap-4 md:p-4"
             >
-                <div class="space-y-1.5 rounded-sm border border-[#4a3a24] bg-[#1a140f]/p-2 md:p-3">
+                <div
+                    class="bg-[#1a140f]/p-2 space-y-1.5 rounded-sm border border-[#4a3a24] md:p-3"
+                >
                     <div class="flex items-center justify-between gap-1">
                         <p
                             class="truncate text-[10px] tracking-wider text-[#c9a227] uppercase md:text-xs"
@@ -144,7 +151,9 @@ const canUsePotion = (potion: PotionDefinition) =>
                         variant="mana"
                     />
                 </div>
-                <div class="space-y-1.5 rounded-sm border border-[#4a3a24] bg-[#1a140f]/p-2 md:p-3">
+                <div
+                    class="bg-[#1a140f]/p-2 space-y-1.5 rounded-sm border border-[#4a3a24] md:p-3"
+                >
                     <p
                         class="truncate text-[10px] tracking-wider text-lime-400/80 uppercase md:text-xs"
                     >
@@ -170,7 +179,7 @@ const canUsePotion = (potion: PotionDefinition) =>
             >
                 <div
                     v-if="floatingText"
-                    class="pointer-events-none absolute top-4 left-1/2 z-20 -translate-x-1/2 animate-[floatUp_0.9s_ease] font-display text-2xl md:top-8 md:text-3xl"
+                    class="font-display pointer-events-none absolute top-4 left-1/2 z-20 -translate-x-1/2 animate-[floatUp_0.9s_ease] text-2xl md:top-8 md:text-3xl"
                     :class="{
                         'text-rose-400': floatingTone === 'damage',
                         'text-emerald-400': floatingTone === 'heal',
@@ -185,7 +194,8 @@ const canUsePotion = (potion: PotionDefinition) =>
                         class="transition duration-300"
                         :class="{
                             'translate-x-2 md:translate-x-4':
-                                playerAnim === 'attack' || playerAnim === 'cast',
+                                playerAnim === 'attack' ||
+                                playerAnim === 'cast',
                             'opacity-70': playerAnim === 'hurt',
                             grayscale: playerAnim === 'dead',
                         }"
@@ -205,7 +215,7 @@ const canUsePotion = (potion: PotionDefinition) =>
                             '-translate-x-2 md:-translate-x-3':
                                 enemyAnim === 'attack',
                             'opacity-70': enemyAnim === 'hurt',
-                            'grayscale scale-95': enemyAnim === 'dead',
+                            'scale-95 grayscale': enemyAnim === 'dead',
                             'animate-[dragonBob_2.4s_ease-in-out_infinite]':
                                 enemyIsDragon,
                         }"
@@ -237,8 +247,12 @@ const canUsePotion = (potion: PotionDefinition) =>
             <div
                 class="border-t border-[#3d2f1d] bg-[#17120e] p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] md:p-4"
             >
-                <div class="mb-2 flex items-center justify-between gap-2 md:mb-3">
-                    <p class="text-[10px] tracking-[0.2em] text-[#c9a227] uppercase md:text-xs">
+                <div
+                    class="mb-2 flex items-center justify-between gap-2 md:mb-3"
+                >
+                    <p
+                        class="text-[10px] tracking-[0.2em] text-[#c9a227] uppercase md:text-xs"
+                    >
                         Habilidades
                         <span class="ml-1 text-[#9f8b68]">
                             {{
@@ -276,12 +290,19 @@ const canUsePotion = (potion: PotionDefinition) =>
                                 "
                                 @click="emit('usePotion', potion.id)"
                             >
-                                <div class="flex items-center justify-between gap-2">
-                                    <span class="text-sm font-medium" :style="{ color: potion.accent }">
+                                <div
+                                    class="flex items-center justify-between gap-2"
+                                >
+                                    <span
+                                        class="text-sm font-medium"
+                                        :style="{ color: potion.accent }"
+                                    >
                                         {{ potion.name }}
                                     </span>
                                     <span class="text-[11px] text-[#d7c4a3]"
-                                        >x{{ hero.potions[potion.id] ?? 0 }}</span
+                                        >x{{
+                                            hero.potions[potion.id] ?? 0
+                                        }}</span
                                     >
                                 </div>
                                 <p class="mt-0.5 text-[10px] text-[#9f8b68]">
@@ -296,57 +317,66 @@ const canUsePotion = (potion: PotionDefinition) =>
                         </div>
 
                         <div class="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                        <button
-                            v-for="skill in skills"
-                            :key="skill.id"
-                            type="button"
-                            class="min-h-14 touch-manipulation rounded-sm border border-[#5c4a2e] bg-[#211910] px-3 py-3 text-left transition active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40 md:min-h-0"
-                            :disabled="!canUse(skill)"
-                            :class="
-                                canUse(skill)
-                                    ? 'hover:border-[#c9a227] hover:bg-[#2a1f14]'
-                                    : ''
-                            "
-                            @click="emit('useSkill', skill.id)"
-                        >
-                            <div class="mb-0.5 flex items-center justify-between gap-2">
-                                <span class="text-sm font-medium text-[#f3e6c8]">{{
-                                    skill.name
-                                }}</span>
-                                <span class="shrink-0 text-[11px] text-sky-300"
-                                    >MP {{ skill.manaCost }}</span
-                                >
-                            </div>
-                            <p class="mb-1 line-clamp-2 text-[11px] leading-snug text-[#9f8b68] md:text-xs">
-                                {{ skill.description }}
-                            </p>
-                            <p
-                                class="text-[10px] tracking-wider text-[#c9a227] uppercase"
+                            <button
+                                v-for="skill in skills"
+                                :key="skill.id"
+                                type="button"
+                                class="min-h-14 touch-manipulation rounded-sm border border-[#5c4a2e] bg-[#211910] px-3 py-3 text-left transition active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40 md:min-h-0"
+                                :disabled="!canUse(skill)"
+                                :class="
+                                    canUse(skill)
+                                        ? 'hover:border-[#c9a227] hover:bg-[#2a1f14]'
+                                        : ''
+                                "
+                                @click="emit('useSkill', skill.id)"
                             >
-                                Nv.{{ hero.skillLevels[skill.id] ?? 1 }}
-                                <template v-if="skill.type === 'heal'">
-                                    · Cura
-                                    {{
-                                        skillHeal(
-                                            skill,
-                                            hero.skillLevels[skill.id] ?? 1,
-                                        )
-                                    }}
-                                </template>
-                                <template v-else-if="skill.type === 'buff'">
-                                    · -55% dano
-                                </template>
-                                <template v-else>
-                                    · ~
-                                    {{
-                                        skillPower(
-                                            skill,
-                                            hero.skillLevels[skill.id] ?? 1,
-                                        ) + (furyBoost > 0 ? Math.round(furyBoost * 0.7) : 0)
-                                    }}
-                                </template>
-                            </p>
-                        </button>
+                                <div
+                                    class="mb-0.5 flex items-center justify-between gap-2"
+                                >
+                                    <span
+                                        class="text-sm font-medium text-[#f3e6c8]"
+                                        >{{ skill.name }}</span
+                                    >
+                                    <span
+                                        class="shrink-0 text-[11px] text-sky-300"
+                                        >MP {{ skill.manaCost }}</span
+                                    >
+                                </div>
+                                <p
+                                    class="mb-1 line-clamp-2 text-[11px] leading-snug text-[#9f8b68] md:text-xs"
+                                >
+                                    {{ skill.description }}
+                                </p>
+                                <p
+                                    class="text-[10px] tracking-wider text-[#c9a227] uppercase"
+                                >
+                                    Nv.{{ hero.skillLevels[skill.id] ?? 1 }}
+                                    <template v-if="skill.type === 'heal'">
+                                        · Cura
+                                        {{
+                                            skillHeal(
+                                                skill,
+                                                hero.skillLevels[skill.id] ?? 1,
+                                            )
+                                        }}
+                                    </template>
+                                    <template v-else-if="skill.type === 'buff'">
+                                        · -55% dano
+                                    </template>
+                                    <template v-else>
+                                        · ~
+                                        {{
+                                            skillPower(
+                                                skill,
+                                                hero.skillLevels[skill.id] ?? 1,
+                                            ) +
+                                            (furyBoost > 0
+                                                ? Math.round(furyBoost * 0.7)
+                                                : 0)
+                                        }}
+                                    </template>
+                                </p>
+                            </button>
                         </div>
                     </div>
 

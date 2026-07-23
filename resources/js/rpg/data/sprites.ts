@@ -9,7 +9,12 @@ export interface SpriteClip {
     loop: boolean;
 }
 
-const knight = (file: string, frames: number, fps = 8, loop = true): SpriteClip => ({
+const knight = (
+    file: string,
+    frames: number,
+    fps = 8,
+    loop = true,
+): SpriteClip => ({
     src: `/sprites/Knight_1/${encodeURIComponent(file)}`,
     frames,
     frameWidth: 128,
@@ -18,7 +23,12 @@ const knight = (file: string, frames: number, fps = 8, loop = true): SpriteClip 
     loop,
 });
 
-const wizard = (file: string, frames: number, fps = 8, loop = true): SpriteClip => ({
+const wizard = (
+    file: string,
+    frames: number,
+    fps = 8,
+    loop = true,
+): SpriteClip => ({
     src: `/sprites/Fire Wizard/${encodeURIComponent(file)}`,
     frames,
     frameWidth: 128,
@@ -27,10 +37,7 @@ const wizard = (file: string, frames: number, fps = 8, loop = true): SpriteClip 
     loop,
 });
 
-export const HERO_SPRITES: Record<
-    HeroClass,
-    Record<string, SpriteClip>
-> = {
+export const HERO_SPRITES: Record<HeroClass, Record<string, SpriteClip>> = {
     warrior: {
         idle: knight('Idle.png', 4, 6),
         walk: knight('Walk.png', 8, 10),

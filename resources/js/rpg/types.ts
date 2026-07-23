@@ -10,14 +10,7 @@ export type GameScreen =
     | 'defeat';
 
 export type AnimationState =
-    | 'idle'
-    | 'walk'
-    | 'run'
-    | 'attack'
-    | 'hurt'
-    | 'defend'
-    | 'dead'
-    | 'cast';
+    'idle' | 'walk' | 'run' | 'attack' | 'hurt' | 'defend' | 'dead' | 'cast';
 
 export interface SkillDefinition {
     id: string;

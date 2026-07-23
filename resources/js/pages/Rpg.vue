@@ -3,9 +3,9 @@ import { Head } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import BattleArena from '@/rpg/components/BattleArena.vue';
 import ClassSelect from '@/rpg/components/ClassSelect.vue';
+import SpriteAnimator from '@/rpg/components/SpriteAnimator.vue';
 import StoryPanel from '@/rpg/components/StoryPanel.vue';
 import UpgradePanel from '@/rpg/components/UpgradePanel.vue';
-import SpriteAnimator from '@/rpg/components/SpriteAnimator.vue';
 import { useRpgGame } from '@/rpg/composables/useRpgGame';
 import { HERO_SPRITES } from '@/rpg/data/sprites';
 import { STAGES } from '@/rpg/data/stages';
@@ -29,15 +29,17 @@ const {
     skillHeal,
 } = useRpgGame();
 
-const hasSave = computed(
-    () => state.hero !== null && state.screen !== 'intro',
-);
+const hasSave = computed(() => state.hero !== null && state.screen !== 'intro');
 </script>
 
 <template>
     <Head title="Crônicas do Dragão">
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+        <link
+            rel="preconnect"
+            href="https://fonts.gstatic.com"
+            crossorigin=""
+        />
         <link
             href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Source+Sans+3:wght@400;600&display=swap"
             rel="stylesheet"
@@ -51,10 +53,14 @@ const hasSave = computed(
             class="relative z-10 mx-auto flex w-full max-w-6xl items-center justify-between gap-2 px-3 py-3 sm:gap-4 sm:px-4 sm:py-5 md:px-6"
         >
             <div class="min-w-0">
-                <p class="text-[9px] tracking-[0.3em] text-[#c9a227] uppercase sm:text-[10px] sm:tracking-[0.4em]">
+                <p
+                    class="text-[9px] tracking-[0.3em] text-[#c9a227] uppercase sm:text-[10px] sm:tracking-[0.4em]"
+                >
                     Aventura de masmorras
                 </p>
-                <h1 class="font-display truncate text-lg text-[#f6e7c1] sm:text-xl md:text-2xl">
+                <h1
+                    class="font-display truncate text-lg text-[#f6e7c1] sm:text-xl md:text-2xl"
+                >
                     Crônicas do Dragão
                 </h1>
             </div>
@@ -82,13 +88,17 @@ const hasSave = computed(
             </div>
         </header>
 
-        <main class="relative z-10 mx-auto w-full max-w-6xl px-3 pb-10 sm:px-4 sm:pb-16 md:px-6">
+        <main
+            class="relative z-10 mx-auto w-full max-w-6xl px-3 pb-10 sm:px-4 sm:pb-16 md:px-6"
+        >
             <!-- INTRO -->
             <section
                 v-if="state.screen === 'intro'"
-                class="flex min-h-[70vh] flex-col items-center justify-center py-4 text-center animate-[fadeRise_0.7s_ease] sm:min-h-[75vh]"
+                class="flex min-h-[70vh] animate-[fadeRise_0.7s_ease] flex-col items-center justify-center py-4 text-center sm:min-h-[75vh]"
             >
-                <div class="mb-5 flex scale-75 items-end justify-center gap-2 sm:mb-8 sm:scale-100 sm:gap-6 md:gap-10">
+                <div
+                    class="mb-5 flex scale-75 items-end justify-center gap-2 sm:mb-8 sm:scale-100 sm:gap-6 md:gap-10"
+                >
                     <SpriteAnimator
                         :clip="HERO_SPRITES.warrior.idle"
                         :scale="2.2"
@@ -103,7 +113,9 @@ const hasSave = computed(
                     />
                 </div>
 
-                <p class="mb-2 text-[10px] tracking-[0.35em] text-[#c9a227] uppercase sm:mb-3 sm:text-xs sm:tracking-[0.45em]">
+                <p
+                    class="mb-2 text-[10px] tracking-[0.35em] text-[#c9a227] uppercase sm:mb-3 sm:text-xs sm:tracking-[0.45em]"
+                >
                     Uma lenda clássica de masmorras
                 </p>
                 <h2
@@ -111,23 +123,42 @@ const hasSave = computed(
                 >
                     Será que você consegue chegar até o dragão e derrotá-lo?
                 </h2>
-                <p class="mx-auto mb-6 max-w-2xl text-sm text-[#b9a88a] sm:mb-8 sm:text-base md:text-lg">
-                    Quatro fases. Defesa e ataque no timing certo. Compre poções no
-                    mercador, escolha Guerreiro ou Mago e enfrente o Dragão Carmesim.
+                <p
+                    class="mx-auto mb-6 max-w-2xl text-sm text-[#b9a88a] sm:mb-8 sm:text-base md:text-lg"
+                >
+                    Quatro fases. Defesa e ataque no timing certo. Compre poções
+                    no mercador, escolha Guerreiro ou Mago e enfrente o Dragão
+                    Carmesim.
                 </p>
 
-                <div class="mb-8 grid w-full max-w-3xl gap-2 text-left text-sm text-[#d7c4a3] sm:mb-10 sm:gap-3 sm:grid-cols-3">
-                    <div class="rounded-sm border border-[#4a3a24] bg-[#17120e]/p-3 sm:p-4">
+                <div
+                    class="mb-8 grid w-full max-w-3xl gap-2 text-left text-sm text-[#d7c4a3] sm:mb-10 sm:grid-cols-3 sm:gap-3"
+                >
+                    <div
+                        class="bg-[#17120e]/p-3 rounded-sm border border-[#4a3a24] sm:p-4"
+                    >
                         <p class="mb-1 text-[#c9a227]">1 · Floresta</p>
-                        <p class="text-xs text-[#9f8b68] sm:text-sm">Besta das Sombras</p>
+                        <p class="text-xs text-[#9f8b68] sm:text-sm">
+                            Besta das Sombras
+                        </p>
                     </div>
-                    <div class="rounded-sm border border-[#4a3a24] bg-[#17120e]/p-3 sm:p-4">
-                        <p class="mb-1 text-[#c9a227]">2–3 · Catacumbas & Castelo</p>
-                        <p class="text-xs text-[#9f8b68] sm:text-sm">Necromante e Cavaleiro</p>
+                    <div
+                        class="bg-[#17120e]/p-3 rounded-sm border border-[#4a3a24] sm:p-4"
+                    >
+                        <p class="mb-1 text-[#c9a227]">
+                            2–3 · Catacumbas & Castelo
+                        </p>
+                        <p class="text-xs text-[#9f8b68] sm:text-sm">
+                            Necromante e Cavaleiro
+                        </p>
                     </div>
-                    <div class="rounded-sm border border-[#4a3a24] bg-[#17120e]/p-3 sm:p-4">
+                    <div
+                        class="bg-[#17120e]/p-3 rounded-sm border border-[#4a3a24] sm:p-4"
+                    >
                         <p class="mb-1 text-[#c9a227]">4 · Covil</p>
-                        <p class="text-xs text-[#9f8b68] sm:text-sm">Dragão Carmesim</p>
+                        <p class="text-xs text-[#9f8b68] sm:text-sm">
+                            Dragão Carmesim
+                        </p>
                     </div>
                 </div>
 
@@ -191,21 +222,23 @@ const hasSave = computed(
                 :stage="currentStage"
                 :skills="availableSkills"
                 :victory-text="currentStage.victoryStory"
-                @upgrade="
-                    (stat, skillId) => upgradeStat(stat, skillId)
-                "
+                @upgrade="(stat, skillId) => upgradeStat(stat, skillId)"
                 @buy="buyPotion"
                 @continue="continueToNextStage"
             />
 
             <section
                 v-else-if="state.screen === 'victory'"
-                class="flex min-h-[65vh] flex-col items-center justify-center px-1 text-center animate-[fadeRise_0.6s_ease]"
+                class="flex min-h-[65vh] animate-[fadeRise_0.6s_ease] flex-col items-center justify-center px-1 text-center"
             >
-                <p class="mb-2 text-xs tracking-[0.35em] text-[#c9a227] uppercase">
+                <p
+                    class="mb-2 text-xs tracking-[0.35em] text-[#c9a227] uppercase"
+                >
                     Fim da jornada
                 </p>
-                <h2 class="font-display mb-4 text-3xl text-[#f6e7c1] sm:text-5xl">
+                <h2
+                    class="font-display mb-4 text-3xl text-[#f6e7c1] sm:text-5xl"
+                >
                     O Dragão caiu!
                 </h2>
                 <p class="mb-8 max-w-xl text-sm text-[#b9a88a] sm:text-base">
@@ -220,26 +253,38 @@ const hasSave = computed(
                         de nível {{ state.hero.level }}.
                     </template>
                 </p>
-                <button type="button" class="rpg-btn w-full max-w-xs sm:w-auto" @click="resetGame">
+                <button
+                    type="button"
+                    class="rpg-btn w-full max-w-xs sm:w-auto"
+                    @click="resetGame"
+                >
                     Jogar novamente
                 </button>
             </section>
 
             <section
                 v-else-if="state.screen === 'defeat'"
-                class="flex min-h-[65vh] flex-col items-center justify-center px-1 text-center animate-[fadeRise_0.6s_ease]"
+                class="flex min-h-[65vh] animate-[fadeRise_0.6s_ease] flex-col items-center justify-center px-1 text-center"
             >
-                <p class="mb-2 text-xs tracking-[0.35em] text-rose-400 uppercase">
+                <p
+                    class="mb-2 text-xs tracking-[0.35em] text-rose-400 uppercase"
+                >
                     Derrota
                 </p>
-                <h2 class="font-display mb-4 text-3xl text-[#f6e7c1] sm:text-5xl">
+                <h2
+                    class="font-display mb-4 text-3xl text-[#f6e7c1] sm:text-5xl"
+                >
                     A escuridão venceu… por agora
                 </h2>
                 <p class="mb-8 max-w-xl text-sm text-[#b9a88a] sm:text-base">
-                    Tente de novo: defenda antes dos golpes pesados, cure no timing
-                    certo e não gaste toda a mana de uma vez.
+                    Tente de novo: defenda antes dos golpes pesados, cure no
+                    timing certo e não gaste toda a mana de uma vez.
                 </p>
-                <button type="button" class="rpg-btn w-full max-w-xs sm:w-auto" @click="resetGame">
+                <button
+                    type="button"
+                    class="rpg-btn w-full max-w-xs sm:w-auto"
+                    @click="resetGame"
+                >
                     Tentar de novo
                 </button>
             </section>

@@ -32,10 +32,10 @@ const barClass = computed(() => {
 <template>
     <div class="w-full">
         <div
-            class="mb-1 flex items-center justify-between text-[10px] tracking-[0.14em] uppercase text-[#d7c4a3] sm:text-[11px] sm:tracking-[0.18em]"
+            class="mb-1 flex items-center justify-between text-[10px] tracking-[0.14em] text-[#d7c4a3] uppercase sm:text-[11px] sm:tracking-[0.18em]"
         >
             <span>{{ label }}</span>
-            <span class="tabular-nums text-[#f3e6c8]"
+            <span class="text-[#f3e6c8] tabular-nums"
                 >{{ Math.ceil(current) }}/{{ max }}</span
             >
         </div>
