@@ -343,11 +343,20 @@ export function useRpgGame() {
             (skill) => skill.damage < 34 && skill.type !== 'heal',
         );
 
+        // Fase média: menos spam de combo/cura para manter desafio justo
+        const healChance = enemy.difficulty === 'médio' ? 0.45 : 0.75;
+        const heavyChance =
+            enemy.difficulty === 'médio'
+                ? 0.5
+                : enemy.difficulty === 'fácil'
+                  ? 0.55
+                  : 0.8;
+
         // Curar quando ferido
         if (
-            state.enemyHp <= enemy.maxHp * 0.4 &&
+            state.enemyHp <= enemy.maxHp * 0.35 &&
             heals.length > 0 &&
-            Math.random() < 0.75
+            Math.random() < healChance
         ) {
             return heals[Math.floor(Math.random() * heals.length)]!;
         }
@@ -356,7 +365,7 @@ export function useRpgGame() {
         if (
             state.playerDefenseTurns <= 0 &&
             heavy.length > 0 &&
-            Math.random() < 0.8
+            Math.random() < heavyChance
         ) {
             return heavy[Math.floor(Math.random() * heavy.length)]!;
         }
@@ -365,8 +374,8 @@ export function useRpgGame() {
         if (state.playerDefenseTurns > 0) {
             if (
                 heals.length > 0 &&
-                state.enemyHp < enemy.maxHp * 0.7 &&
-                Math.random() < 0.45
+                state.enemyHp < enemy.maxHp * 0.55 &&
+                Math.random() < (enemy.difficulty === 'médio' ? 0.25 : 0.45)
             ) {
                 return heals[Math.floor(Math.random() * heals.length)]!;
             }
@@ -532,7 +541,7 @@ export function useRpgGame() {
             0,
             hero.maxMana,
         );
-        state.enemyMana = clamp(state.enemyMana + 8, 0, enemy.maxMana);
+        state.enemyMana = clamp(state.enemyMana + 6, 0, enemy.maxMana);
 
         if (hero.hp <= 0) {
             await playAnimation('player', 'dead', 900);
