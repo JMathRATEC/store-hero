@@ -360,9 +360,9 @@ const canUsePotion = (potion: PotionDefinition) =>
                                             )
                                         }}
                                     </template>
-                                    <template v-else-if="skill.type === 'buff'">
-                                        · -55% dano
-                                    </template>
+<template v-else-if="skill.type === 'buff'">
+                                    · Ação livre · -55% dano
+                                </template>
                                     <template v-else>
                                         · ~
                                         {{

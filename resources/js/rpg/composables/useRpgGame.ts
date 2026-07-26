@@ -230,7 +230,7 @@ export function useRpgGame() {
         pushLog(`${enemy.name} bloqueia o caminho!`, 'system');
         pushLog(`Dificuldade: ${enemy.difficulty.toUpperCase()}`, 'system');
         pushLog(
-            'Estratégia: defenda antes dos golpes pesados e gerencie a mana.',
+            'Estratégia: defesa é ação livre — ative e ataque no mesmo turno.',
             'system',
         );
         persist();
@@ -419,9 +419,25 @@ export function useRpgGame() {
         }
 
         state.isAnimating = true;
-        state.isPlayerTurn = false;
         state.hero.mana -= skill.manaCost;
 
+        // Defesa não gasta o turno: pode atacar em seguida
+        if (skill.type === 'buff') {
+            await playAnimation('player', skill.animation, 550);
+            state.playerDefenseTurns = skill.defenseTurns ?? 2;
+            pushLog(
+                `${state.hero.name} ergue a guarda com ${skill.name}! (-55% dano por ${state.playerDefenseTurns} turnos · ação livre)`,
+                'player',
+            );
+            showFloat('DEFESA', 'mana');
+            state.isAnimating = false;
+            state.isPlayerTurn = true;
+            persist();
+
+            return;
+        }
+
+        state.isPlayerTurn = false;
         await playAnimation('player', skill.animation, 750);
 
         if (skill.type === 'heal') {
@@ -435,13 +451,6 @@ export function useRpgGame() {
                 'player',
             );
             showFloat(`+${healed}`, 'heal');
-        } else if (skill.type === 'buff') {
-            state.playerDefenseTurns = skill.defenseTurns ?? 2;
-            pushLog(
-                `${state.hero.name} ergue a guarda com ${skill.name}! (-55% dano por ${state.playerDefenseTurns} turnos)`,
-                'player',
-            );
-            showFloat('DEFESA', 'mana');
         } else {
             const damage = calcPlayerDamage(skill);
             state.enemyHp = clamp(

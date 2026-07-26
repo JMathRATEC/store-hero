@@ -126,36 +126,42 @@ const hasSave = computed(() => state.hero !== null && state.screen !== 'intro');
                 <p
                     class="mx-auto mb-6 max-w-2xl text-sm text-[#b9a88a] sm:mb-8 sm:text-base md:text-lg"
                 >
-                    Quatro fases. Defesa e ataque no timing certo. Compre poções
-                    no mercador, escolha Guerreiro ou Mago e enfrente o Dragão
-                    Carmesim.
+                    Sete fases até o Dragão Carmesim. Defesa é ação livre — ative
+                    e ataque no mesmo turno. Compre poções e escolha Guerreiro ou
+                    Mago.
                 </p>
 
                 <div
-                    class="mb-8 grid w-full max-w-3xl gap-2 text-left text-sm text-[#d7c4a3] sm:mb-10 sm:grid-cols-3 sm:gap-3"
+                    class="mb-8 grid w-full max-w-3xl gap-2 text-left text-sm text-[#d7c4a3] sm:mb-10 sm:grid-cols-2 sm:gap-3 lg:grid-cols-4"
                 >
                     <div
                         class="bg-[#17120e]/p-3 rounded-sm border border-[#4a3a24] sm:p-4"
                     >
-                        <p class="mb-1 text-[#c9a227]">1 · Floresta</p>
+                        <p class="mb-1 text-[#c9a227]">1–2 · Início</p>
                         <p class="text-xs text-[#9f8b68] sm:text-sm">
-                            Besta das Sombras
+                            Besta e Necromante
                         </p>
                     </div>
                     <div
                         class="bg-[#17120e]/p-3 rounded-sm border border-[#4a3a24] sm:p-4"
                     >
-                        <p class="mb-1 text-[#c9a227]">
-                            2–3 · Catacumbas & Castelo
-                        </p>
+                        <p class="mb-1 text-[#c9a227]">3–5 · Caminho</p>
                         <p class="text-xs text-[#9f8b68] sm:text-sm">
-                            Necromante e Cavaleiro
+                            Lobo, Gárgula e Troll
                         </p>
                     </div>
                     <div
                         class="bg-[#17120e]/p-3 rounded-sm border border-[#4a3a24] sm:p-4"
                     >
-                        <p class="mb-1 text-[#c9a227]">4 · Covil</p>
+                        <p class="mb-1 text-[#c9a227]">6 · Castelo</p>
+                        <p class="text-xs text-[#9f8b68] sm:text-sm">
+                            Cavaleiro Negro
+                        </p>
+                    </div>
+                    <div
+                        class="bg-[#17120e]/p-3 rounded-sm border border-[#4a3a24] sm:p-4"
+                    >
+                        <p class="mb-1 text-[#c9a227]">7 · Final</p>
                         <p class="text-xs text-[#9f8b68] sm:text-sm">
                             Dragão Carmesim
                         </p>
@@ -242,7 +248,7 @@ const hasSave = computed(() => state.hero !== null && state.screen !== 'intro');
                     O Dragão caiu!
                 </h2>
                 <p class="mb-8 max-w-xl text-sm text-[#b9a88a] sm:text-base">
-                    {{ STAGES[3]?.victoryStory }}
+                    {{ STAGES[STAGES.length - 1]?.victoryStory }}
                     <template v-if="state.hero">
                         Glória a {{ state.hero.name }},
                         {{
