@@ -126,9 +126,9 @@ const hasSave = computed(() => state.hero !== null && state.screen !== 'intro');
                 <p
                     class="mx-auto mb-6 max-w-2xl text-sm text-[#b9a88a] sm:mb-8 sm:text-base md:text-lg"
                 >
-                    Sete fases até o Dragão Carmesim. Defesa é ação livre — ative
-                    e ataque no mesmo turno. Compre poções e escolha Guerreiro ou
-                    Mago.
+                    Sete fases até o Dragão Carmesim. Defesa é ação livre —
+                    ative e ataque no mesmo turno. Compre poções e escolha
+                    Guerreiro ou Mago.
                 </p>
 
                 <div
